@@ -213,7 +213,8 @@ function handleNewTurn(data) {
     markerGroup.clearLayers();
 
     // Update game rules to show the city to find
-    $('#game_rules').html('Locate <span class="city">' + data.city + '</span> (' + data.country + ')');
+    //  (' + data.country + ')
+    $('#game_rules').html('Locate <span class="city">' + data.city + '</span>');
 
     // Show countdown timer
     progressBar.animate(1);
@@ -258,7 +259,7 @@ function handleEndOfTurn(data) {
 
     // Show correct answer
     var correctMarker = createMarker(data.correct_answer.lat, data.correct_answer.lng, 'red');
-    correctMarker.bindPopup(data.correct_answer.name);
+    correctMarker.bindPopup(data.correct_answer.name + ', ' + data.correct_answer.country);
 
     // Update game rules
     $('#game_rules').html('Waiting for the next turn');

@@ -80,6 +80,7 @@ class GameMaster:
             'correct_answer':
             {
                 'name': city['name'],
+                'country': city['country'],
                 'lat': city['latitude'],
                 'lng': city['longitude'],
             }

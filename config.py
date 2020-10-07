@@ -14,7 +14,7 @@ SCORE_MAX_DISTANCE = 2000
 ALLOW_MULTIPLE_ANSWER = 1  # 0 for False, 1 for True
 
 # How many zoom level are allowed (max 2)
-ZOOM_LEVEL = 0
+ZOOM_LEVEL = 2
 
 # CDN URL
 CDN_URL = 'static'
