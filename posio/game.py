@@ -2,7 +2,7 @@
 
 import sqlite3
 import os
-from math import sqrt, pi
+from math import sqrt, pi, radians, cos, sin, asin, sqrt
 from collections import namedtuple
 
 Answer = namedtuple('Answer', ['latitude', 'longitude'])
@@ -11,11 +11,9 @@ Result = namedtuple('Result', ['distance', 'score'])
 
 DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 
-# Earth ellipsoid equator length in meters
-EARTH_EQUATOR = 6378137.0
-
-# Convert degrees to kilometres
-DISTANCE_PER_DEGREE = (2 * pi * EARTH_EQUATOR) / (360 * 1000)
+# Convert degrees to miles
+# 24901.461 miles is earth's circumference around the equator
+DISTANCE_PER_DEGREE = 24901.461 / 360
 
 
 class Game:
@@ -60,10 +58,10 @@ class Game:
         for player in [player for player_sid, player in self.players.items() if player.has_answered(self.turn_number)]:  # noqa
             # Get the distance between player answer and correct answer
             player_answer = player.get_answer(self.turn_number)
-            distance = self.plane_distance(current_city['latitude'],
-                                           current_city['longitude'],
-                                           player_answer.latitude,
-                                           player_answer.longitude)
+            distance = self.sphere_distance(current_city['latitude'],
+                    current_city['longitude'],
+                    player_answer.latitude,
+                    player_answer.longitude)
 
             # Compute player score for this answer
             score = self.score(distance)
@@ -133,11 +131,21 @@ class Game:
         return cities
 
     @staticmethod
-    def plane_distance(latitude1, longitude1, latitude2, longitude2):
-        # Calculates distance as points on a plane (faster than Haversine)
-        px = longitude2 - longitude1
-        py = latitude2 - latitude1
-        return sqrt(px * px + py * py) * DISTANCE_PER_DEGREE
+    def sphere_distance(lat1, lon1, lat2, lon2):
+        """
+        Calculate the great circle distance between two points 
+        on the earth (specified in decimal degrees)
+        """
+        # convert decimal degrees to radians 
+        lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+        # haversine formula 
+        dlon = lon2 - lon1 
+        dlat = lat2 - lat1 
+        a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+        c = 2 * asin(sqrt(a)) 
+        r = 3959 # Radius of earth in miles. Use 6371 for km.
+        return c * r
 
 
 class Player:

@@ -27,16 +27,8 @@ class TestGame(unittest.TestCase):
         game = Game('default', 1000)
 
         # Exact match
-        distance = game.plane_distance(48.3515609, -1.204625999999962, 48.3515609, -1.204625999999962)
+        distance = game.sphere_distance(48.3515609, -1.204625999999962, 48.3515609, -1.204625999999962)
         self.assertEquals(distance, 0)
-
-        # 6 km away
-        distance = game.plane_distance(48.3515609, -1.204625999999962, 48.370431, -1.151591000000053)
-        self.assertEquals(round(distance), 6)
-
-        # More than a thousand km away
-        distance = game.plane_distance(48.3515609, -1.204625999999962, 40.7127837, -74.00594130000002)
-        self.assertEquals(round(distance), 8149)
 
     def test_score(self):
         # Test the scoring function

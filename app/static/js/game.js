@@ -253,7 +253,7 @@ function handleEndOfTurn(data) {
     if (data.best_answer) {
 
         var bestMarker = createMarker(data.best_answer.lat, data.best_answer.lng, 'green');
-        bestMarker.bindPopup('Closest answer (<b>' + round(data.best_answer.distance) + ' km</b> away)');
+        bestMarker.bindPopup('Closest answer (<b>' + round(data.best_answer.distance) + ' miles</b> away)');
 
     }
 
@@ -276,7 +276,7 @@ function showPlayerResults(data) {
     var userMarker = createMarker(data.lat, data.lng, 'blue');
 
     // Show user score, ranking and distance
-    var resultsText = '<div class="results"><b>' + round(data.distance) + ' km</b> away: ';
+    var resultsText = '<div class="results"><b>' + round(data.distance) + ' miles</b> away: ';
 
     // Show user score
     if (data.score == 0) {
@@ -344,12 +344,12 @@ function createMarker(lat, lng, color) {
 }
 
 /**
- * Round a float value to 2 decimal
+ * Round a float value to 1 decimal
  * @param value
  * @returns {number}
  */
 function round(value) {
-    return Math.round(value * 100) / 100
+    return Math.round(value * 10) / 10
 }
 
 /**
